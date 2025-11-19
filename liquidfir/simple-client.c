@@ -5,26 +5,6 @@
 #include <string.h>
 #include <time.h>
 
-#include <arm_neon.h>
-
-void vector_add_neon(float *result, const float *a, const float *b, int count) {
-    int i;
-    
-    // Process 4 elements at a time
-    for (i = 0; i <= count - 4; i += 4) {
-        float32x4_t va = vld1q_f32(&a[i]);      // Load 4 floats from a
-        float32x4_t vb = vld1q_f32(&b[i]);      // Load 4 floats from b
-        float32x4_t vr = vaddq_f32(va, vb);     // Add vectors
-        vst1q_f32(&result[i], vr);              // Store result
-    }
-    
-    // Handle remaining elements
-    for (; i < count; i++) {
-        result[i] = a[i] + b[i];
-    }
-}
-
-
 #include "liquid.h"
 
 // fs=48Khz, fpass=11800Hz, fstop=12200Hz, Apass=0.1db, Astop=70db
